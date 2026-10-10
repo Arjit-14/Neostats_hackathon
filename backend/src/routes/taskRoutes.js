@@ -6,7 +6,10 @@ const {
   createTask
 } = require("../controllers/taskController");
 
-router.get("/", getTasks);
-router.post("/", createTask);
+const { requireAuth } = require("../middleware/authMiddleware");
+
+router.get("/", requireAuth, getTasks);
+router.post("/", requireAuth, createTask);
 
 module.exports = router;
+

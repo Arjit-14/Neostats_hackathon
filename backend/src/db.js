@@ -8,4 +8,11 @@ const pool = new Pool({
   database: process.env.DB_NAME || "neostats",
 });
 
+pool.on("error", (error) => {
+  // An idle PostgreSQL connection can be terminated during a database
+  // restart or administrator action. Keep the API process alive so the
+  // pool can establish a fresh connection for the next request.
+  console.error("Unexpected PostgreSQL pool error:", error.message);
+});
+
 module.exports = pool;
